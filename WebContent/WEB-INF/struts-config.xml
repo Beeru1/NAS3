@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+                               "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+
+<struts-config>
+
+	<!-- Data Sources -->
+	<data-sources>
+	</data-sources>
+
+	<!-- Form Beans -->
+	<form-beans>
+		<form-bean name="loginForm" type="com.ibm.nas.forms.LoginFormBean"></form-bean>
+		<form-bean name="LeadForm" type="com.ibm.nas.forms.LeadForm"/>
+		<form-bean name="kmChangePasswordForm" type="org.apache.struts.action.DynaActionForm">
+			<form-property name="oldPassword" type="java.lang.String" />
+			<form-property name="newPassword" type="java.lang.String" />
+			<form-property name="confirmPassword" type="java.lang.String" />
+			<form-property name="methodName" type="java.lang.String" />
+			
+		</form-bean>
+		<form-bean name="leadRegistrationFormBean" type="com.ibm.nas.forms.LeadRegistrationFormBean"/>
+		<form-bean name="kmUserMstrFormBean" type="com.ibm.nas.forms.UserMstrFormBean"/>
+	</form-beans>
+	
+
+	<!-- Global Exceptions -->
+	<global-exceptions>
+	</global-exceptions>
+
+	<!-- Global Forwards -->
+	<global-forwards>
+	    <forward   name="success"  path="success.page"/>	    
+	</global-forwards>
+
+	<!-- Action Mappings -->
+	<action-mappings>
+	
+	<!--  
+	 <action name="AlertsFormBean" path="/alertsAction" type="com.ibm.lms.actions.AlertsAction" parameter="methodName" scope="request">
+          <forward name="initAlertReport" path="alert.page" ></forward>
+         </action>
+         -->
+		<action name="loginForm" path="/initLogin" scope="request" validate="false" forward="/jsp/login.jsp">
+		</action>
+		<action name="loginForm" path="/errorDisplay" scope="request" validate="false" forward="errorPage.page">
+		</action>
+		<action name="loginForm" path="/initCSRLogin" scope="request" validate="false" forward="/jsp/csrLogin.jsp">
+		</action>		
+
+		<action name="loginForm" path="/NASLogin" scope="request" type="com.ibm.nas.actions.LoginAction"  validate="false">
+			<forward name="loginSuccess" path="home.page"></forward>
+			<forward name="loginFail" path="/jsp/NASLogin.jsp"></forward>
+			<forward name="testpopup" path="/jsp/csrLogin.jsp"></forward>
+<!-- Added by atul  -->
+			<forward name="csrOnloadPage" path="kmBriefingMstr.do?methodName=viewCSRBriefing"></forward>
+			<forward name="csrLoginSuccess" path="kmBriefingMstr.do?methodName=viewCSRBriefing"></forward>
+			<forward name="loginFailure" path="/jsp/NASLogin.jsp"></forward>
+			<forward name="csrLoginFailure" path="/jsp/NASLogin.jsp"></forward>
+		    <forward name="firstLoginChangePassword" path="/kmChangePassword.do?methodName=initFirstLoginPwdChange"></forward>
+		    <forward name="csrChangePassword" path="/jsp/changePassword.jsp"></forward>			
+		 	<forward name="loginFailed" path="/jsp/NASLogin.jsp"></forward>
+		</action>
+		
+		<action path="/csrAction" type="com.ibm.lms.actions.KmCSRAction" validate="false" parameter="methodName">
+			<forward name="csrHome" path="csrhome.page"></forward>
+			<forward name="csrFailure" path="/jsp/csrLogin.jsp"></forward>
+			<forward name="login" path="/login.do" >	</forward>
+			<forward name="displaySubCategories" path="/jsp/displaySubCategories.jsp" >	</forward>
+			<forward name="init" path="/csrAction.do?methodName=viewCSRHome"></forward>
+		</action>
+		
+		<action name="loginForm" path="/initForgotPassword" scope="request" type="com.ibm.nas.actions.LoginAction" validate="false">
+			<forward name="forgotPassword" path="/jsp/forgotPassword.jsp"></forward>
+			<forward name="kmForgotPassword" path="/jsp/KmForgotPassword.jsp"></forward>
+			<forward name="loginFailure" path="/jsp/login.jsp"></forward>
+		</action>
+		<action name="loginForm" path="/forgotPassword" scope="request" type="com.ibm.nas.actions.LoginAction" validate="false">
+			<forward name="forgotPwdSuccess" path="/jsp/login.jsp"></forward>
+			<forward name="forgotPassword" path="/jsp/forgotPassword.jsp"></forward>
+			<forward name="kmForgotPassword" path="/jsp/KmForgotPassword.jsp"></forward>
+			<forward name="loginFailure" path="/jsp/forgotPassword.jsp"></forward>
+			<forward name="CSRLogin" path="/initCSRLogin.do"></forward>
+            
+		</action>
+		<action name="loginForm" path="/home" scope="request" type="com.ibm.nas.actions.LoginAction" validate="false">
+			<forward name="home" path="home.page"></forward>
+		</action>
+		
+		<action name="loginForm" path="/help" scope="request" type="com.ibm.nas.actions.LoginAction" validate="false">
+			<forward name="help" path="lmsHelp.page"></forward>
+		</action>
+		
+	<action path="/timeout" type="com.ibm.nas.actions.LogoutAction" validate="false">
+	<forward name="timeout" path="/jsp/errors/sessionTimeout.jsp"></forward>
+	</action>	
+
+		<action name="loginForm" path="/csrHome" scope="request" type="com.ibm.lms.actions.LoginAction" validate="false">
+			<forward name="csrHome" path="csrhome.page"></forward>
+		</action>
+		<!-- <action name="kmUserMstrFormBean" path="/kmUserMstr" scope="request" type="com.ibm.lms.actions.UserMstrAction"  parameter="methodName" validate="false">
+			<forward name="initCreateUser" path="createUser.page"></forward>
+			<forward name="UserCreatedSuccess" path="createUser.page"></forward>
+			<forward name="CreateUserFailure" path="createUser.page" ></forward>		
+			<forward name="viewUserList" path="viewUser.page"></forward>
+			<forward name="searchUser" path="searchUser.page"></forward>
+			<forward name="initEditUser" path="editUser.page"></forward>
+			<forward name="viewUser" path="viewSingleUser.page"></forward>	
+			<forward name="EditUserSuccess" path="viewUser.page"/>
+			<forward name="viewUserListExcel" path="/jsp/viewUsersExcel.jsp"/>
+			<forward name="error" path="errorPage.page"></forward>
+		</action>
+		 -->
+		
+	<action name="kmChangePasswordForm" path="/kmChangePassword" scope="request" type="com.ibm.nas.actions.ChangePasswordAction" parameter="methodName" validate="false">
+		<forward name="initchangePasswordSuccess" path="changePassword.page"></forward>
+		<forward name="initCSRChangePassword" path="csrChangePassword.page"></forward>
+		
+			<forward name="initChangePasswordFirstLogin" path="/jsp/changePassword.jsp"></forward>
+		<forward name="initCSRChangePasswordFirstLogin" path="/jsp/changePassword.jsp"></forward>
+		
+		<forward name="changePasswordSuccess" path="/jsp/changePassword.jsp"></forward>
+		<forward name="changePasswordFailureLogout" path="/Logout.do"></forward>
+		<forward name="changePasswordFailure" path="/jsp/changePassword.jsp"></forward>	
+		<forward name="changePasswordFailureInt" path="changePassword.page"></forward>	
+
+		<!--<forward name="changePasswordFailure" path="changePassword.page"></forward>
+		-->
+		<forward name="changePasswordFistLoginFailure" path="/jsp/changePassword.jsp"></forward>			
+	</action>
+		
+		<action name="LeadForm" path="/qualifiedLeads" type="com.ibm.nas.actions.SearchAssignedLeadsAction" parameter="methodName">
+	    	<forward name="search" path="assignedLeads.page"></forward>
+	    	<forward name="ShowPage" path="LeadAssignedMaps.page"></forward>
+	    	</action>
+	    	<action path="/Logout" type="com.ibm.nas.actions.LogoutAction">
+			<forward name="logoutSuccess" path="/jsp/logout.jsp"></forward>			
+			<forward name="logoutFailure" path="/jsp/login.jsp"></forward>
+
+		</action>
+		<action name="LeadForm" path="/viewAssignedLead" type="com.ibm.nas.actions.SearchAssignedLeadsAction" parameter="methodName">
+		<forward name="search" path="assignedLeads.page"></forward>
+		</action>
+		
+		
+		<action  name="leadRegistrationFormBean" path="/leadRegistration" type="com.ibm.nas.actions.LeadRegistrationAction" parameter="methodName" scope="request">
+			<forward name="initialize" path="leadRegistration.page"></forward>
+			<forward name="initializeeditLead" path="editLeadRegistration.page"></forward>
+			<forward name="leadSearchPage" path="leadSearch.page"></forward>
+			<forward name="leadSearchFinalUpdatePage" path="leadSearchFinalUpdatePage.page"></forward>
+			<forward name="leadSearchDialler" path="leadSearchDialler.page"></forward>
+			<forward name="viewLeadFinalUpdateDetails" path="viewLeadFinalUpdateDetails.page"></forward>
+			<forward name="viewLeadDetails" path="leadDetails.page"></forward>
+			<forward name="viewFinalStatusLeadsExcel" path="/jsp/workflow/bulkLeadFinalStatusExcel.jsp"></forward>
+			<forward name="editLeadSearchPage" path="editLeadSearch.page"></forward>
+			<forward name="editLead" path="editLead.page"></forward>
+			<forward name="editLeadDetails" path="editLeadDetails.page"></forward>
+			
+			<forward name="viewEditOfferDetails" path="viewEditOfferDetails.page"></forward>
+
+		</action>
+		
+		
+		
+		
+		
+		
+	<action name="kmUserMstrFormBean" path="/kmUserMstr" scope="request" type="com.ibm.nas.actions.NAS_UserMstrAction"  parameter="methodName" validate="false">
+			<forward name="initCreateUser" path="createUser.page"></forward>
+			<forward name="UserCreatedSuccess" path="createUser.page"></forward>
+			<forward name="CreateUserFailure" path="createUser.page" ></forward>		
+			<forward name="viewUserList" path="viewUser.page"></forward>
+			<forward name="searchUser" path="searchUser.page"></forward>
+			<forward name="initEditUser" path="editUser.page"></forward>
+			<forward name="viewUser" path="viewSingleUser.page"></forward>	
+			<forward name="EditUserSuccess" path="viewUser.page"/>
+			<forward name="viewUserListExcel" path="/jsp/viewUsersExcel.jsp"/>
+			<forward name="error" path="errorPage.page"></forward>
+		</action>
+		
+		
+		
+		
+	</action-mappings>
+	<controller className="org.apache.struts.config.ControllerConfig" 
+		  processorClass="com.ibm.nas.common.NASRequestProcessor" />
+	<!-- Message Resources -->
+	<message-resources parameter="ApplicationResources"/>		
+	<!--  plug in -->	
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+	<plug-in className="com.ibm.appsecure.plugin.QueryPlugin">
+	</plug-in>
+	
+</struts-config>
+	
